@@ -1,0 +1,87 @@
+<view wx:if="{{isLoad===null}}" class="margin-top load notexist text-l load-project"></view>
+<view wx:if="{{isLoad===false}}" class="margin-top load loading text-l load-project"></view>
+
+<block wx:if="{{isLoad}}">
+	<cmpt-custom-nav url="../../default/index/default_index" style="position: fixed;top:0;width:100%;z-index: 999999999;"></cmpt-custom-nav>
+	<image src="{{activity.ACTIVITY_OBJ.coverbig}}" class="cover loading" mode="widthFix" />
+	<view class="main">
+
+		<view class="title">{{activity.ACTIVITY_TITLE}}</view> 
+	 
+
+		<view class="detail margin-top">
+			<view class="list1">
+				<view class="item">
+					<view class="left icon-moneybagfill"></view>
+					<view class="right">
+						<text class="txt1">报名费用</text>
+						<text wx:if="{{activity.ACTIVITY_FEE}}" class="txt2 text-orange">{{activity.ACTIVITY_FEE}}元 <text class="text-grey">{{activity.ACTIVITY_METHOD==0?'线下收取':'在线支付'}}</text></text>
+						<text wx:else class="txt2">免费</text>
+					</view>
+				</view>
+				<view class="item">
+					<view class="left icon-timefill"></view>
+					<view class="right">
+						<text class="txt1">
+							<text class="text-green" wx:if="{{activity.statusDesc=='报名中'}}">{{activity.statusDesc}}</text>
+							<text class="text-orange" wx:else>{{activity.statusDesc}}</text>
+						</text> 
+					</view>
+				</view>
+			</view>
+		</view>
+ 
+
+		<view class="detail-title margin-top"><view class="icon-left"></view>报名规则</view>
+		<view class="detail"> 
+
+			<view class="rule"><text class="text-black">报名时间：</text>
+				<text user-select>{{activity.time}}</text>
+			</view>
+ 
+			<view class="rule"><text class="text-black">人数限定：</text>
+				<text wx:if="{{activity.ACTIVITY_MAX_CNT==0}}" user-select>不限人数</text>
+				<text wx:else user-select>{{activity.ACTIVITY_JOIN_CNT}}<text class="margin-left-xxs margin-right-xxs">/</text>{{activity.ACTIVITY_MAX_CNT}}</text>
+			</view>
+			<view class="rule"><text class="text-black">审核规则：</text>
+				<text wx:if="{{activity.ACTIVITY_CHECK_SET==0}}">报名后无需审核</text>
+				<text wx:if="{{activity.ACTIVITY_CHECK_SET==1}}">报名后需要系统审核</text>
+			</view>
+			<view class="rule"><text class="text-black">取消规则：</text>
+				<text wx:if="{{activity.ACTIVITY_CANCEL_SET==0}}">报名不可取消</text>
+				<text wx:if="{{activity.ACTIVITY_CANCEL_SET==1}}">报名随时可取消</text>
+				<text wx:if="{{activity.ACTIVITY_CANCEL_SET==2}}">报名截止前可取消</text>
+			</view>
+		</view> 
+
+		<view class="detail-title margin-top"><view class="icon-left"></view>详情</view>
+		<view class="detail article-box">
+			<view class="article">
+				<block wx:for="{{activity.ACTIVITY_OBJ.desc}}" wx:key="key">
+					<view class="content" wx:if="{{item.type=='text'}}">
+						<text user-select="{{true}}">{{item.val}}</text>
+					</view>
+					<view class="pics" wx:if="{{item.type=='img'}}">
+						<image bindtap="url" data-type='img' data-url="{{item.val}}" show-menu-by-longpress="{{true}}" class="loading" mode='widthFix' lazy-load="true" src="{{item.val}}">
+						</image>
+					</view>
+				</block>
+			</view>
+
+		</view>
+
+
+	</view>
+
+	<view style="height:200rpx"></view>
+
+
+	<cmpt-detail mode="mode2" topBtnShow="{{topBtnShow}}" tag="{{activity.myActivityJoinTag}}" oid="{{activity._id}}" cate="{{activity.ACTIVITY_CATE_NAME}}" title="{{activity.ACTIVITY_TITLE}}" cover="{{activity.ACTIVITY_OBJ.cover[0]}}" qr="{{activity.ACTIVITY_QR}}" desc="查看报名详情" bg="{{skin.PROJECT_COLOR}}">
+		<view class="bottom-line"> 
+			<view bindtap="bindJoinTap" wx:if="{{activity.statusDesc=='报名中'&&!activity.myActivityJoinId}}" class="join bg-want text-white">我要报名</view>
+			<view bindtap="bindCancelJoinTap" wx:elif="{{activity.myActivityJoinId}}" class="join bg-grey light">取消报名</view>
+			<view wx:else class="join bg-grey light">{{activity.statusDesc}}</view>
+		</view>
+	</cmpt-detail>
+
+</block>

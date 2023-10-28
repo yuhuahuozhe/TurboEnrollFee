@@ -1,0 +1,7 @@
+{
+	"usingComponents": {
+		"cmpt-calendar": "/cmpts/public/calendar/calendar_comm/calendar_comm_cmpt"
+	},
+	"enablePullDownRefresh": true,
+	"navigationBarTitleText": "报名日历"
+}
