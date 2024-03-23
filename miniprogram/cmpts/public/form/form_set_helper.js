@@ -120,7 +120,7 @@ function initFields(defaultFields = null) {
 
 
 // 函数参数必须是字符串，因为二代身份证号码是十八位，而在javascript中，十八位的数值会超出计算范围，造成不精确的结果，导致最后两位和计算的值不一致，从而该函数出现错误。
-// 详情查看javascript的数值范围
+// 详情查看javascript的数值范 围
 function checkIDCard(idcode) {
 	if (idcode.length != 18) return false;
 
